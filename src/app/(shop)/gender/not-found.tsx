@@ -5,6 +5,6 @@ export default function CategoryNotFoundPage() {
 
 
   return (
-    <PageNotFound errorMessage="Whoops! Categoria no encontrada. ¡Lo sentimos mucho!"/>
+    <PageNotFound errorMessage="Whoops! Genero no encontrado. ¡Lo sentimos mucho!"/>
   );
 }
