@@ -9,6 +9,8 @@ export * from './product/stock-label/StockLabel'
 export * from './products/product-grid/ProductGrid'
 export * from './products/product-grid/ProductGridItem'
 
+//Provider
+export * from './provider/Provider';
 
 //UI
 export * from './ui/footer/Footer';
@@ -17,3 +19,4 @@ export * from './ui/side-menu/SideBar';
 export * from './ui/title/Title';
 export * from './ui/top-menu/TopMenu';
 export * from './ui/pagination/Pagination';
+
