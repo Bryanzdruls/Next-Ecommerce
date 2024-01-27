@@ -12,6 +12,12 @@ export * from './auth/register'
 //Country
 export * from './country/get-countries'
 
+//Order
+export * from './order/place-order'
+export * from './order/get-order-by-id'
+export * from './order/get-order-by-user'
+
+
 //product
 export * from './product/product-pagination'
 export * from './product/get-product-by-slug'

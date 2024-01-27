@@ -3,7 +3,18 @@ import prisma from "@/lib/prisma";
 export const deleteUserAddress = async (userId: string) =>{
 
     try {
-        const deleted =await prisma.userAddress.delete({
+
+        const addressBorrar = await prisma.userAddress.findUnique({
+            where:{userId}
+        })
+        
+        if (!addressBorrar) {
+            return {
+                ok:true,
+                message:'No tenia direccion asociada'
+            }
+        }
+        const deleted = await prisma.userAddress.delete({
             where:{userId:userId}
         })
         return {

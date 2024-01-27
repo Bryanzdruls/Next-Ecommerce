@@ -1,9 +1,12 @@
+import { getOrderById } from "@/actions/";
 import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
+
+import { redirect } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
+import { currencyFormat } from '@/utils';
 
 const productsInCart = [
   initialData.products[0],
@@ -17,8 +20,17 @@ interface Props {
   };
 }
 
-export default function OrdersIdPage({ params }: Props) {
+export default async function OrdersIdPage({ params }: Props) {
   const { id } = params;
+
+
+  const { ok,order } = await getOrderById(id);
+  
+  if (!ok) {
+    redirect('/')
+  }
+  
+  const address = order?.OrderAddress;
 
   //TODO verificar
   //redirect('?')
@@ -33,34 +45,38 @@ export default function OrdersIdPage({ params }: Props) {
               className={clsx(
                 `flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5`,
                 {
-                  "bg-red-500": false,
-                  "bg-green-700": true,
+                  "bg-red-500": !order?.isPaid,
+                  "bg-green-700": order?.isPaid,
                 }
               )}
             >
               <IoCartOutline size={30} />
               {/* <span className="mx-2">Pendiente de pago</span> */}
-              <span className="mx-2">Orden pagada</span>
+              <span className="mx-2">
+                {
+                  order?.isPaid ? 'Pagada': 'No pagada'
+                }
+              </span>
             </div>
 
             {/* items */}
-            {productsInCart.map((producto) => (
-              <div key={producto.slug} className="flex mb-5">
+            {order!.OrderItem.map((item) => (
+              <div key={item.product.slug +'-'+item.size} className="flex mb-5">
                 <Image
-                  src={`/products/${producto.images[0]}`}
+                  src={`/products/${item.product.ProductImage[0].url}`}
                   width={100}
                   height={100}
                   style={{
                     height: "100px",
                     width: "100px",
                   }}
-                  alt={producto.title}
+                  alt={item.product.title}
                   className="mr-5 rounded"
                 />
                 <div>
-                  <p>{producto.title}</p>
-                  <p>${producto.price} x 3</p>
-                  <p className="font-bold">Subtotal: ${producto.price * 3}</p>
+                  <p>{item.product.title}</p>
+                  <p>${item.price} x {item.quantity}</p>
+                  <p className="font-bold">Subtotal: {currencyFormat(item.price * item.quantity)}</p>
                 </div>
               </div>
             ))}
@@ -70,12 +86,12 @@ export default function OrdersIdPage({ params }: Props) {
           <div className="bg-white rounded-xl shadow-xl p-7">
             <h2 className="text-2xl font-bold mb-2">Dirección de entrega</h2>
             <div className="mb-10">
-              <p className="text-xl">Brian Torres</p>
-              <p>Calle48c sur #39a 165</p>
-              <p>Envigado</p>
-              <p>Antioquia</p>
-              <p>00000</p>
-              <p>3054576393</p>
+                  <p className="text-xl">{address!.firstName} {address!.lastName}</p>
+                  <p>{address!.address}</p>
+                  <p>{address!.address2}</p>
+                  <p>{address!.postalCode}</p>
+                  <p>{address!.city} - {address!.countryId}</p>
+                  <p>{address!.phone}</p>
             </div>
 
             {/* Divider */}
@@ -83,33 +99,37 @@ export default function OrdersIdPage({ params }: Props) {
             <h2 className="text-2xl mb-2">Resumen de orden</h2>
 
             <div className="grid grid-cols-2">
-              <span>No. Productos</span>
-              <span className="text-right">3 Articulos</span>
+                <span>No. Productos</span>
+                <span className="text-right">{order?.itemsInOrder === 1 ? '1 articulo': order?.itemsInOrder + ' articulos'}</span>
 
-              <span>Subtotal</span>
-              <span className="text-right">$ 100</span>
+                <span>Subtotal</span>
+                <span className="text-right">{currencyFormat(order!.subTotal)}</span>
 
-              <span>Impuestos (15%)</span>
-              <span className="text-right">$ 100</span>
+                <span>Impuestos (15%)</span>
+                <span className="text-right">{currencyFormat(order!.tax)}</span>
 
-              <span className="text-2xl mt-5">Total:</span>
-              <span className="text-2xl mt-5 text-right">$ 200</span>
+                <span className="text-2xl mt-5">Total:</span>
+                <span className="text-2xl mt-5 text-right">{currencyFormat(order!.total)}</span>
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              <div
-                className={clsx(
-                  `flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5`,
-                  {
-                    "bg-red-500": false,
-                    "bg-green-700": true,
-                  }
-                )}
-              >
-                <IoCartOutline size={30} />
-                {/* <span className="mx-2">Pendiente de pago</span> */}
-                <span className="mx-2">Orden pagada</span>
-              </div>
+            <div
+              className={clsx(
+                `flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5`,
+                {
+                  "bg-red-500": !order?.isPaid,
+                  "bg-green-700": order?.isPaid,
+                }
+              )}
+            >
+              <IoCartOutline size={30} />
+              {/* <span className="mx-2">Pendiente de pago</span> */}
+              <span className="mx-2">
+                {
+                  order?.isPaid ? 'Pagada': 'No pagada'
+                }
+              </span>
+            </div>
             </div>
           </div>
         </div>
