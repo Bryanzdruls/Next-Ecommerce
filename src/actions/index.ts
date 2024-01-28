@@ -17,6 +17,10 @@ export * from './order/place-order'
 export * from './order/get-order-by-id'
 export * from './order/get-order-by-user'
 
+//paypal
+export * from './payments/set-transaction-id'
+export * from './payments/paypal-payment'
+
 
 //product
 export * from './product/product-pagination'

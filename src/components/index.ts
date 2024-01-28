@@ -1,3 +1,9 @@
+//Orders
+export * from './orders/OrderStatus';
+
+
+//Paypal 
+export * from './paypal/PaypalButton';
 //Product
 export * from './product/slideshow/ProductSlideshow'
 export * from './product/slideshow/ProductMobileSlideshow'
@@ -10,7 +16,7 @@ export * from './products/product-grid/ProductGrid'
 export * from './products/product-grid/ProductGridItem'
 
 //Provider
-export * from './provider/Provider';
+export * from './providers/Providers';
 
 //UI
 export * from './ui/footer/Footer';
