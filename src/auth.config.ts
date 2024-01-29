@@ -5,6 +5,8 @@ import prisma from '@/lib/prisma';
 import bcryptjs from 'bcryptjs';
  
 export const authConfig: NextAuthConfig = {
+    trustHost: true,
+    //trustHostedDomain: true,
     pages: {
         signIn: '/auth/login',
         newUser: '/auth/new-account'

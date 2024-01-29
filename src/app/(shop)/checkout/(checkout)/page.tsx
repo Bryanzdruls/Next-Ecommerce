@@ -3,21 +3,21 @@ import { Title } from "@/components";
 import Link from "next/link";
 import { ProductsInOrder } from "./ui/ProductsInOrder";
 import { PlaceOrder } from "./ui/PlaceOrder";
-import { useCartStore } from "@/store";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+// import { useCartStore } from "@/store";
+// import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
 
 
 
 export default function CheckoutPage() {
-  const router = useRouter();
-  const cart = useCartStore(state => state.cart);
+  // const router = useRouter();
+  // const cart = useCartStore(state => state.cart);
 
-  useEffect(() => {
-    if (cart.length === 0) {
-      router.replace('/')
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (cart.length === 0) {
+  //     router.replace('/')
+  //   }
+  // }, [router])
 
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">

@@ -1,10 +1,11 @@
 'use server'
 
 import { Country } from "@/interfaces";
+import prisma from '@/lib/prisma';
 
 export const getCountries = async():Promise<Country[] | []>=>{
     try {
-        const countries = await prisma?.country.findMany({
+        const countries = await prisma.country.findMany({
             orderBy:{
                 name: 'asc'
             }
