@@ -22,6 +22,6 @@ export interface CartProduct {
     size: Size;
     image: string;
 }
-export type Category ='men'|'women'|'kid'|'unisex'
+type Category ='men'|'women'|'kid'|'unisex'
 export type Type = 'shirts'|'pants'|'hoodies'|'hats';
 export type Size = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';
